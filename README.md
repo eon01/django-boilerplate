@@ -2,6 +2,12 @@
 
 This code is an easy way to start your Django application.
 
+![](boilerplate/boilerplate/staticfiles/screenshot.jpg)
+
+
+
+
+
 ## Features
 
 - Docker compose ready
