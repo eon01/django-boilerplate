@@ -1,0 +1,57 @@
+version: '3.5'
+
+services:
+  web:
+    build:
+      context: boilerplate
+      dockerfile: Dockerfile
+    env_file: boilerplate/.env
+    tty: true
+    volumes:
+      - ./boilerplate/:/code/
+    ports:
+      - "8000:8000"
+    networks:
+      - boilerplate_net
+
+  db:
+    build:
+      context: db
+      dockerfile: Dockerfile
+    env_file: db/.env     
+    networks:
+      - boilerplate_net
+
+  # redis:
+  #   image: "redis:5.0.7-alpine"   
+  #   networks:
+  #     - boilerplate_net    
+
+  # rabbitmq:
+  #   build:
+  #     context: rabbitmq
+  #     dockerfile: Dockerfile
+  #   image: rabbitmq:3.8.3-management-alpine
+  #   container_name: rabbitmq
+  #   env_file: rabbitmq/.env     
+  #   ports:
+  #       - 5672:5672
+  #       - 15672:15672
+  #   networks:
+  #     - boilerplate_net
+
+  # dbadmin:
+  #   build:
+  #     context: dbadmin
+  #     dockerfile: Dockerfile    
+  #   ports:
+  #     - "8001:80"
+  #   env_file: dbadmin/.env     
+  #   ports:
+  #     - "${PGADMIN_PORT:-9002}:80"
+  #   networks:
+  #     - boilerplate_net
+
+networks:
+  boilerplate_net:
+    driver: bridge
