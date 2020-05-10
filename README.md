@@ -27,6 +27,8 @@ The Django project, the database, the S3 bucket name and every resource you use 
 
 Don't forget to change the module name (folder 'boilerplate') to a folder name of your choice.
 
+Don't forget to create a virtual environment and install all the dependencies in your dev env before proceeding.
+
 e.g: If you want to create a project called "my-project", you should change the folder name "boilerplate" to "my-project" and change every occurence of "boilerplate" within your code to "my-project". Then run `docker-compse up`.
 
 ## To Do
