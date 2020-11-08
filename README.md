@@ -23,14 +23,18 @@ This code is an easy way to start your Django application.
 
 ## How to use
 
-1 - Activate your virtual env if you are using one.
-2 - Run the init.sh script:
+1 - Install, Docker and Docker Compose.
+
+2 - Activate your virtual env if you are using one.
+
+3 - Run the init.sh script:
 
 
 ``` bash
 bash init.sh <your_project_name>
-docker-compse up
 ```
+
+4 - Run `docker-compose up`
 
 This will configure Django to run with the right project name (otherwise, it will run with the default project name "boilerplace").
 
