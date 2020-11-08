@@ -23,7 +23,9 @@ This code is an easy way to start your Django application.
 
 ## How to use
 
-Run the init.sh script:
+1 - Activate your virtual env if you are using one.
+2 - Run the init.sh script:
+
 
 ``` bash
 bash init.sh <your_project_name>
