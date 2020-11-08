@@ -23,6 +23,17 @@ This code is an easy way to start your Django application.
 
 ## How to use
 
+Run the init.sh script:
+
+``` bash
+bash init.sh <your_project_name>
+docker-compse up
+```
+
+This will configure Django to run with the right project name (otherwise, it will run with the default project name "boilerplace").
+
+If you want to do it manually:
+
 The Django project, the database, the S3 bucket name and every resource you use and  is called "boilerplate", CTRL+F and change "boilerplate" in code with the name of your project/bucket/etc...
 
 Don't forget to change the module name (folder 'boilerplate') to a folder name of your choice.
