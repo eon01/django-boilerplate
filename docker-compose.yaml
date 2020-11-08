@@ -33,7 +33,7 @@ services:
   #     dockerfile: Dockerfile
   #   image: rabbitmq:3.8.3-management-alpine
   #   container_name: rabbitmq
-  #   env_file: rabbitmq/.env     
+  #   env_file: rabbitmq/var.env     
   #   ports:
   #       - 5672:5672
   #       - 15672:15672
@@ -46,7 +46,7 @@ services:
   #     dockerfile: Dockerfile    
   #   ports:
   #     - "8001:80"
-  #   env_file: dbadmin/.env     
+  #   env_file: dbadmin/var.env     
   #   ports:
   #     - "${PGADMIN_PORT:-9002}:80"
   #   networks:
