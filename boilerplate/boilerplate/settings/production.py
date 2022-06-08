@@ -114,6 +114,30 @@ CACHES = {
             "CONNECTION_POOL_KWARGS": {"max_connections": 10000, "retry_on_timeout": True},
         },
     },
+    "select2": { 
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://" + os.environ['REDIS_HOST'] + ":" + os.environ['REDIS_PORT'] + "/" + os.environ['REDIS_DB_SELECT2'],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PICKLE_VERSION": -1,  # Use the latest protocol version
+            # "SOCKET_CONNECT_TIMEOUT": 5,  # in seconds
+            # "SOCKET_TIMEOUT": 5,  # in seconds
+            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 10000, "retry_on_timeout": True},
+        },
+    },    
+    "collectfast": { 
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://" + os.environ['REDIS_HOST'] + ":" + os.environ['REDIS_PORT'] + "/" + os.environ['REDIS_DB_COLLECTFAST'],
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            "PICKLE_VERSION": -1,  # Use the latest protocol version
+            # "SOCKET_CONNECT_TIMEOUT": 5,  # in seconds
+            # "SOCKET_TIMEOUT": 5,  # in seconds
+            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+            "CONNECTION_POOL_KWARGS": {"max_connections": 10000, "retry_on_timeout": True},
+        },
+    },   
     "disk": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
         "LOCATION": os.path.join(BASE_DIR, 'cache'),

@@ -32,3 +32,11 @@ vine==5.0.0
 wcwidth==0.2.5
 wrapt==1.14.1
 zipp==3.6.0
+django-select2
+Collectfast
+django-taggit
+django-crispy-forms
+django-clear-cache
+django-extensions
+sorl-thumbnail
+django-css-inline

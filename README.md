@@ -20,6 +20,16 @@ An opinionated Django boilerplate.
 - Configured to run Redis in a separate container 
 - Cache configured and ready to run on disk and using Redis
 - WSGI configured using gunicorn
+- Other commons libraries are installed like:
+    - Collectfast
+    - django-select2
+    - django_extensions
+    - django-clear-cache
+    - django-taggit
+    - django-crispy-forms
+    - django-debug-toolbar
+    - sorl-thumbnail
+    - django-css-inline
 
 ## How to use
 
@@ -34,7 +44,7 @@ An opinionated Django boilerplate.
 bash init.sh <your_project_name>
 ```
 
-4 - Update your .env file
+4 - Update the .env file
 
 5 - Run `docker-compose up`
 

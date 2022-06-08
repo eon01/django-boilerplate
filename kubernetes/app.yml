@@ -1,0 +1,138 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: boilerplate-webapp-service
+  namespace: boilerplate
+spec:
+  selector:
+    app: boilerplate-webapp
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  sessionAffinityConfig:
+    clientIP:
+      timeoutSeconds: 20
+---
+# boilerplate deployment
+kind: Deployment
+apiVersion: apps/v1
+metadata:
+  labels:
+    app: boilerplate-webapp
+  name: boilerplate-webapp
+  namespace: boilerplate
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: boilerplate-webapp
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  minReadySeconds: 5
+  template:
+    metadata:
+      name: boilerplate-webapp
+      labels:
+        app: boilerplate-webapp
+        env: production
+    spec:
+      containers:
+      - name: boilerplate-webapp-container
+        image: $image:$v
+        resources:
+          requests:
+            cpu: "700m"
+            memory: "700Mi"
+          limits:
+            # cpu: "900m"
+            memory: "1000Mi"  
+        readinessProbe:
+          httpGet:
+            path: /readiness/1207ad7ab53f14472d43cbe5d6ad9053
+            port: 8000
+            scheme: HTTP
+          initialDelaySeconds: 20
+          timeoutSeconds: 10     
+          periodSeconds: 10     
+        ports:
+        - name: http-web-port
+          containerPort: 8000
+        imagePullPolicy: Always
+        env:
+        - name: DJANGO_ENV
+          value: "prod"
+        - name: BASE_URL
+          value: "https://boilerplate.dev"          
+        - name: DATABASE_NAME
+          value: "boilerplate"
+        - name: DATABASE_USER
+          value: "boilerplate"
+        - name: DATABASE_PASSWORD
+          value: "changeme"
+        - name: DATABASE_HOST
+          value: "change.this.ip.address"
+        - name: DATABASE_PORT
+          value: "5432"
+        - name: SECRET_KEY
+          value: "changeme"
+        - name: AWS_ACCESS_KEY_ID
+          value: "changeme"
+        - name: AWS_SECRET_ACCESS_KEY
+          value: "changeme+8QQnOaSNBBC3AtSiuGSq"
+        - name: EMAIL_BACKEND
+          value: "django.core.mail.backends.smtp.EmailBackend"
+        - name: EMAIL_HOST
+          value: "email-smtp.eu-west-1.amazonaws.com"
+        - name: EMAIL_PORT
+          value: "587"
+        - name: EMAIL_HOST_USER
+          value: "changeme"
+        - name: EMAIL_HOST_PASSWORD
+          value: "BPpnBUmUS/changeme/gVrSf"
+        - name: EMAIL_USE_TLS
+          value: "True"        
+        - name: REDIS_HOST
+          value: "change.this.ip.address"
+        - name: REDIS_PORT
+          value: "6379"
+        - name: REDIS_USERNAME
+          value: 
+        - name: REDIS_PASSWORD
+          value: 
+        - name: CELERY_BROKER_DB
+          value: "2"            
+        - name: REDIS_DB
+          value: "3"
+        - name: REDIS_DB_SELECT2
+          value: "4"
+        - name: REDIS_DB_COLLECTFAST
+          value: "5"          
+---
+apiVersion: policy/v1beta1
+kind: PodDisruptionBudget
+metadata:
+  name: boilerplate-webapp-pdb
+  namespace: boilerplate
+spec:
+  minAvailable: 2
+  selector:
+    matchLabels:
+      app: boilerplate-webapp
+---
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: boilerplate-webapp-vpa
+  namespace: boilerplate
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: boilerplate-webapp
+  updatePolicy:
+    updateMode: "Off"

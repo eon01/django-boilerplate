@@ -1,7 +1,7 @@
 version: '3.5'
 
 services:
-  web:
+  boilerplate-web:
     build:
       context: boilerplate
       dockerfile: Dockerfile
@@ -14,7 +14,7 @@ services:
     networks:
       - boilerplate_net
 
-  db:
+  boilerplate-db:
     build:
       context: db
       dockerfile: Dockerfile
@@ -22,12 +22,12 @@ services:
     networks:
       - boilerplate_net
     
-  redis:
+  boilerplate-redis:
     image: "redis:5.0.7-alpine"   
     networks:
       - boilerplate_net    
 
-  # dbadmin:
+  # boilerplate-dbadmin:
   #   build:
   #     context: dbadmin
   #     dockerfile: Dockerfile    

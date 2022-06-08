@@ -29,13 +29,22 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    'collectfast',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
 
     'django_celery_beat',
-    
+    'taggit',
+    'crispy_forms',
+    'clear_cache',
+    'django_extensions',
+    'django_select2',
+    'sorl.thumbnail',
+    'django_css_inline',
+
     'boilerplate',
+
 ]
 
 
