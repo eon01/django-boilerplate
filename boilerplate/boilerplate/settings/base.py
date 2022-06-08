@@ -32,6 +32,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
+
+    'django_celery_beat',
     
     'boilerplate',
 ]
@@ -118,46 +120,99 @@ MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media/')
 SITE_ID = 1
 
 
-# djcelery (Celery)
-# import djcelery
-# djcelery.setup_loader()
-# CELERYBEAT_SCHEDULER = 'djcelery.schedulers.DatabaseScheduler'
-#BROKER_URL  = "redis://" + os.environ['REDIS_USERNAME'] + ":" + os.environ['REDIS_PASSWORD']  + "@"  + os.environ['REDIS_HOST'] + ":" + os.environ['REDIS_PORT'] + "/" + os.environ['REDIS_DB'] 
-# CELERY_BROKER_URL = BROKER_URL
-# CELERY_IMPORTS = ('boilerplate',)
-# CELERY_IGNORE_RESULT = False
-# CELERY_RESULT_BACKEND = 'redis'
-# CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
-# CELERY_ACCEPT_CONTENT = ['pickle', 'json', 'msgpack', 'yaml']
-# CELERY_TASK_SERIALIZER = 'json'
-# CELERY_RESULT_SERIALIZER = 'json'
-# CELERY_TIMEZONE = 'Europe/Paris'
-# BROKER_CONNECTION_TIMEOUT = 15
-# BROKER_HEARTBEAT = 10 
-# BROKER_HEARTBEAT_CHECKRATE = 2.0
+BROKER_TRANSPORT = "redis"
+BROKER_HOST = os.environ['REDIS_HOST'] 
+BROKER_PORT = os.environ['REDIS_PORT']
+BROKER_VHOST = os.environ['CELERY_BROKER_DB']
+CELERY_RESULT_BACKEND = "redis"
+CELERY_REDIS_HOST = os.environ['REDIS_HOST']
+CELERY_REDIS_PORT = os.environ['REDIS_PORT']
+CELERY_REDIS_DB = os.environ['CELERY_BROKER_DB']
+CELERY_BROKER_URL = "redis://" + os.environ['REDIS_HOST'] + ":" + os.environ['REDIS_PORT'] + "/" + os.environ['CELERY_BROKER_DB']
+CELERY_IGNORE_RESULT = False
+CELERY_STORE_ERRORS_EVEN_IF_IGNORED = True
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_ENABLE_UTC = True
+CELERY_TIMEZONE = 'UTC'
+CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+CELERY_TASK_TRACK_STARTED = True
+BROKER_CONNECTION_TIMEOUT = 15
+BROKER_HEARTBEAT = 20 
+BROKER_HEARTBEAT_CHECKRATE = 2.0
+CELERY_ACKS_LATE = True
 
+## messages
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert-info',
+    messages.INFO: 'alert-info',
+    messages.SUCCESS: 'alert-success',
+    messages.WARNING: 'alert-warning',
+    messages.ERROR: 'alert-danger',
+}
+
+## Logging 
+import logging
+# the basic logger other apps can import
+log = logging.getLogger(__name__)
+
+
+# the minimum reported level
+min_level = 'INFO'
+# min_level = 'DEBUG'
+
+# the minimum reported level for Django's modules
+# optionally set to DEBUG to see database queries etc.
+# or set to min_level to control it using the DEBUG flag
+min_django_level = 'INFO'
+
+# logging dictConfig configuration
 LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,
+    'disable_existing_loggers': False,  # keep Django's default loggers
     'formatters': {
-        'default': {
-            'format': '[DJANGO] %(levelname)s %(asctime)s %(module)s '
-                        '%(name)s.%(funcName)s:%(lineno)s: %(message)s'
+        # see full list of attributes here:
+        # https://docs.python.org/3/library/logging.html#logrecord-attributes
+        'verbose': {
+            'format': '%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d %(message)s'
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+        'timestampthread': {
+            'format': "%(asctime)s [%(threadName)-12.12s] [%(levelname)-5.5s] [%(name)-20.20s]  %(message)s",
         },
     },
     'handlers': {
+        'logfile': {
+            # optionally raise to INFO to not fill the log file too quickly
+            'level': min_level,  # this level or higher goes to the log file
+            'class': 'logging.handlers.RotatingFileHandler',
+            # IMPORTANT: replace with your desired logfile name!
+            'filename': os.path.join(BASE_DIR, 'django.log'),
+            'maxBytes': 50 * 10**6,  # will 50 MB do?
+            'backupCount': 3,  # keep this many extra historical files
+            'formatter': 'timestampthread'
+        },
         'console': {
-            'level': 'DEBUG',
+            'level': min_level,  # this level or higher goes to the console
             'class': 'logging.StreamHandler',
-            'formatter': 'default',
-        }
+        },
     },
     'loggers': {
-        '*': {
-            'handlers': ['console'],
-            'level': 'DEBUG',
-            'propagate': True,
-        }
+        'django': {  # configure all of Django's loggers
+            'handlers': ['logfile', 'console'],
+            'level': min_django_level,  # this level or higher goes to the console
+            'propagate': False,  # don't propagate further, to avoid duplication
+        },
+        # root configuration – for all of our own apps
+        # (feel free to do separate treatment for e.g. brokenapp vs. sth else)
+        '': {
+            'handlers': ['logfile', 'console'],
+            'level': min_level,  # this level or higher goes to the console,
+        },
     },
 }
 
