@@ -51,7 +51,7 @@ bash init.sh <your_project_name>
 
 ## To Do
 
-- Kubernetes deployment templates for Django.
+- Upgrade Celery.
 
 
 
