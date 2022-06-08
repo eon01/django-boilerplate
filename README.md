@@ -1,6 +1,6 @@
 # Django Boilerplate
 
-This code is an easy way to start your Django application.
+An opinionated Django boilerplate.
 
 ![](boilerplate/boilerplate/staticfiles/screenshot.jpg)
 
@@ -11,15 +11,15 @@ This code is an easy way to start your Django application.
 ## Features
 
 - Docker compose ready
+- Postgres ready
 - A Dockerfile for each service
-- Ready to run on S3 using Django Storages (for production)
+- Static files on S3 and CloudFront using Django Storages.
 - A .env file for each service
 - A base settings file with a separation between dev and prod environments 
-- Postgres ready
-- Configured to run Redis, Rabbitmq, Celery 
+- Configured to run Celery on the same container as Django using s6-overlay
+- Configured to run Redis in a separate container 
 - Cache configured and ready to run on disk and using Redis
-- Integration with a Postgres 4
-- WSGI configured and runs using gunicorn
+- WSGI configured using gunicorn
 
 ## How to use
 
@@ -34,19 +34,10 @@ This code is an easy way to start your Django application.
 bash init.sh <your_project_name>
 ```
 
-4 - Run `docker-compose up`
+4 - Update your .env file
 
-This will configure Django to run with the right project name (otherwise, it will run with the default project name "boilerplace").
+5 - Run `docker-compose up`
 
-If you want to do it manually:
-
-The Django project, the database, the S3 bucket name and every resource you use and  is called "boilerplate", CTRL+F and change "boilerplate" in code with the name of your project/bucket/etc...
-
-Don't forget to change the module name (folder 'boilerplate') to a folder name of your choice.
-
-Don't forget to create a virtual environment and install all the dependencies in your dev env before proceeding.
-
-e.g: If you want to create a project called "my-project", you should change the folder name "boilerplate" to "my-project" and change every occurence of "boilerplate" within your code to "my-project". Then run `docker-compse up`.
 
 ## To Do
 

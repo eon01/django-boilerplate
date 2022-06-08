@@ -5,7 +5,7 @@ services:
     build:
       context: boilerplate
       dockerfile: Dockerfile
-    env_file: boilerplate/var.env
+    env_file: boilerplate/.env
     tty: true
     volumes:
       - ./boilerplate/:/code/
@@ -18,7 +18,7 @@ services:
     build:
       context: db
       dockerfile: Dockerfile
-    env_file: db/var.env     
+    env_file: db/.env     
     networks:
       - boilerplate_net
     
@@ -33,7 +33,7 @@ services:
   #     dockerfile: Dockerfile    
   #   ports:
   #     - "8001:80"
-  #   env_file: dbadmin/var.env     
+  #   env_file: dbadmin/.env     
   #   ports:
   #     - "${PGADMIN_PORT:-9002}:80"
   #   networks:
