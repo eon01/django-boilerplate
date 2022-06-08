@@ -1,18 +1,28 @@
 # Use an official Python runtime as a parent image
-FROM python:3.6
+FROM python:3.8.1-slim-buster
 LABEL maintainer="aymen@eralabs.io"
 
 ENV PYTHONUNBUFFERED 1
+ENV S6_VERSION=v2.2.0.3
 
-COPY ./requirements.txt /code/requirements.txt
-RUN pip install --upgrade pip && pip install -r /code/requirements.txt
+RUN apt-get update --yes --quiet && apt-get install --yes --quiet --no-install-recommends \
+    build-essential \
+    vim \   
+    curl \
+    iputils-ping \
+    xz-utils     
 
+COPY ./requirements.txt /app/requirements.txt
+RUN pip install --upgrade pip && pip install -r /app/requirements.txt
 
-COPY . /code/
-WORKDIR /code/
-
-RUN useradd boilerplate && chown -R boilerplate /code
-USER boilerplate
+COPY . /app/
+WORKDIR /app/
 
 EXPOSE 8000
-CMD exec gunicorn boilerplate.wsgi:application --bind 0.0.0.0:8000 --workers 1 --reload --timeout 50 --threads=1 --worker-class=gthread --worker-tmp-dir /dev/shm
+
+# We are using https://github.com/just-containers/s6-overlay to run Celery and Django.
+ADD https://github.com/just-containers/s6-overlay/releases/download/${S6_VERSION}/s6-overlay-amd64.tar.gz  /tmp
+RUN gunzip -c /tmp/s6-overlay-amd64.tar.gz | tar -xf - -C /
+COPY ./s6-overlay/services /etc/services.d/
+
+ENTRYPOINT ["/init"]

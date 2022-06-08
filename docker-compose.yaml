@@ -21,24 +21,11 @@ services:
     env_file: db/var.env     
     networks:
       - boilerplate_net
-
-  # redis:
-  #   image: "redis:5.0.7-alpine"   
-  #   networks:
-  #     - boilerplate_net    
-
-  # rabbitmq:
-  #   build:
-  #     context: rabbitmq
-  #     dockerfile: Dockerfile
-  #   image: rabbitmq:3.8.3-management-alpine
-  #   container_name: rabbitmq
-  #   env_file: rabbitmq/var.env     
-  #   ports:
-  #       - 5672:5672
-  #       - 15672:15672
-  #   networks:
-  #     - boilerplate_net
+    
+  redis:
+    image: "redis:5.0.7-alpine"   
+    networks:
+      - boilerplate_net    
 
   # dbadmin:
   #   build:
