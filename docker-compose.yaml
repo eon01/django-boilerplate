@@ -4,7 +4,7 @@ services:
   boilerplate-web:
     build:
       context: boilerplate
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile_dev
     env_file: boilerplate/.env
     tty: true
     volumes:
