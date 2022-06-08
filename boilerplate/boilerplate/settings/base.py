@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django_select2',
     'sorl.thumbnail',
     'django_css_inline',
+    'rest_framework',
 
     'boilerplate',
 
@@ -242,3 +243,12 @@ TEMPLATES = [
         },
     },
 ]
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissions'
+    ]
+}

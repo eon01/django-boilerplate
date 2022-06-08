@@ -1,6 +1,7 @@
 amqp==5.1.1
 asgiref==3.5.2
 async-timeout==4.0.2
+backports.zoneinfo==0.2.1
 billiard==3.6.4.0
 cached-property==1.5.2
 celery==5.1.2
@@ -18,14 +19,17 @@ django-crispy-forms==1.14.0
 django-css-inline==0.0.5
 django-debug-toolbar==2.2
 django-extensions==3.1.5
+django-filter==21.1
 django-redis==5.2.0
 django-select2==7.10.0
 django-storages==1.9.1
 django-taggit==3.0.0
 django-timezone-field==4.2.3
+djangorestframework==3.13.1
 gunicorn==20.0.4
 importlib-metadata==4.8.3
 kombu==5.1.0
+Markdown==3.3.7
 packaging==21.3
 prompt-toolkit==3.0.29
 psycopg2-binary==2.9.3
@@ -37,7 +41,7 @@ redis==4.3.3
 six==1.16.0
 sorl-thumbnail==12.8.0
 sqlparse==0.3.1
-typing_extensions==4.1.1
+typing-extensions==4.1.1
 vine==5.0.0
 wcwidth==0.2.5
 wrapt==1.14.1
