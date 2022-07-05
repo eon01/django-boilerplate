@@ -1,6 +1,6 @@
 # Django Boilerplate
 
-An opinionated Django boilerplate.
+An opinionated Django boilerplate running Celery and Django on the same Docker container and ready to run on Kubernetes.
 
 ![](boilerplate/boilerplate/staticfiles/screenshot.jpg)
 
