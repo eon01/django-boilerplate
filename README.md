@@ -32,27 +32,27 @@ An opinionated Django boilerplate.
 
 ✅ WSGI configured using gunicorn
 
-✅ Other commons libraries are installed like:
+✅ Other commons libraries are installed like: 
 
-    ➡️ Collectfast
+➡️ Collectfast 
 
-    ➡️ django-health-check
+➡️ django-health-check
 
-    ➡️ django-select2
+➡️ django-select2
 
-    ➡️ django_extensions
+➡️ django_extensions
 
-    ➡️ django-clear-cache
+➡️ django-clear-cache
 
-    ➡️ django-taggit
+➡️ django-taggit
 
-    ➡️ django-crispy-forms
+➡️ django-crispy-forms
 
-    ➡️ django-debug-toolbar
+➡️ django-debug-toolbar
 
-    ➡️ sorl-thumbnail
+➡️ sorl-thumbnail
 
-    ➡️ django-css-inline
+➡️ django-css-inline
 
 ## How to use
 
