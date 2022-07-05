@@ -43,6 +43,15 @@ INSTALLED_APPS = [
     'sorl.thumbnail',
     'django_css_inline',
     'rest_framework',
+    
+    'health_check',                             # required
+    'health_check.db',                          # stock Django health checkers
+    'health_check.cache',
+    'health_check.storage',
+    'health_check.contrib.migrations',
+    # 'health_check.contrib.celery',              # requires celery
+    # 'health_check.contrib.celery_ping',         # requires celery
+    # 'health_check.contrib.s3boto3_storage',     # requires boto3 and S3BotoStorage backend 
 
     'boilerplate',
 
@@ -177,6 +186,7 @@ min_level = 'INFO'
 # optionally set to DEBUG to see database queries etc.
 # or set to min_level to control it using the DEBUG flag
 min_django_level = 'INFO'
+CELERY_HIJACK_ROOT_LOGGER = False
 
 # logging dictConfig configuration
 LOGGING = {
@@ -210,21 +220,31 @@ LOGGING = {
             'level': min_level,  # this level or higher goes to the console
             'class': 'logging.StreamHandler',
         },
+        'celery': {
+            'level': 'DEBUG',
+            'class': 'logging.handlers.RotatingFileHandler',
+            'filename': 'celery.log',
+            'formatter': 'simple',
+            'maxBytes': 1024 * 1024 * 100,  # 100 mb,
+        },        
     },
     'loggers': {
         'django': {  # configure all of Django's loggers
-            'handlers': ['logfile', 'console'],
+            'handlers': ['logfile', 'console', 'celery'],
             'level': min_django_level,  # this level or higher goes to the console
             'propagate': False,  # don't propagate further, to avoid duplication
         },
         # root configuration – for all of our own apps
         # (feel free to do separate treatment for e.g. brokenapp vs. sth else)
         '': {
-            'handlers': ['logfile', 'console'],
+            'handlers': ['logfile', 'console', 'celery'],
             'level': min_level,  # this level or higher goes to the console,
+            'propagate': True, 
         },
     },
 }
+from logging.config import dictConfig
+dictConfig(LOGGING)
 
 
 TEMPLATES = [

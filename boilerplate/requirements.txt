@@ -20,6 +20,7 @@ django-css-inline==0.0.5
 django-debug-toolbar==2.2
 django-extensions==3.1.5
 django-filter==21.1
+django-health-check==3.16.5
 django-redis==5.2.0
 django-select2==7.10.0
 django-storages==1.9.1
