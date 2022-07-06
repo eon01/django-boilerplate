@@ -3,6 +3,8 @@ asgiref==3.5.2
 async-timeout==4.0.2
 backports.zoneinfo==0.2.1
 billiard==3.6.4.0
+boto3==1.24.23
+botocore==1.27.23
 cached-property==1.5.2
 celery==5.1.2
 click==7.1.2
@@ -12,6 +14,7 @@ click-repl==0.2.0
 Collectfast==2.2.0
 Deprecated==1.2.13
 Django==3.2.13
+django-allow-cidr==0.4.1
 django-appconf==1.0.5
 django-celery-beat==2.2.1
 django-clear-cache==0.3
@@ -29,8 +32,10 @@ django-timezone-field==4.2.3
 djangorestframework==3.13.1
 gunicorn==20.0.4
 importlib-metadata==4.8.3
+jmespath==1.0.1
 kombu==5.1.0
 Markdown==3.3.7
+netaddr==0.8.0
 packaging==21.3
 prompt-toolkit==3.0.29
 psycopg2-binary==2.9.3
@@ -39,10 +44,12 @@ python-crontab==2.6.0
 python-dateutil==2.8.2
 pytz==2020.1
 redis==4.3.3
+s3transfer==0.6.0
 six==1.16.0
 sorl-thumbnail==12.8.0
 sqlparse==0.3.1
 typing-extensions==4.1.1
+urllib3==1.26.9
 vine==5.0.0
 wcwidth==0.2.5
 wrapt==1.14.1

@@ -43,7 +43,7 @@ spec:
     spec:
       containers:
       - name: boilerplate-webapp-container
-        image: $image:$v
+        image: $image
         resources:
           requests:
             cpu: "700m"
@@ -83,7 +83,11 @@ spec:
         - name: AWS_ACCESS_KEY_ID
           value: "changeme"
         - name: AWS_SECRET_ACCESS_KEY
-          value: "changeme+8QQnOaSNBBC3AtSiuGSq"
+          value: "changeme"
+        - name: AWS_STORAGE_BUCKET_NAME
+          value: "boilerplate"     
+        - name: AWS_S3_CUSTOM_DOMAIN
+          value: "cdn.boilerplate.dev"
         - name: EMAIL_BACKEND
           value: "django.core.mail.backends.smtp.EmailBackend"
         - name: EMAIL_HOST
@@ -93,7 +97,7 @@ spec:
         - name: EMAIL_HOST_USER
           value: "changeme"
         - name: EMAIL_HOST_PASSWORD
-          value: "BPpnBUmUS/changeme/gVrSf"
+          value: "changeme"
         - name: EMAIL_USE_TLS
           value: "True"        
         - name: REDIS_HOST

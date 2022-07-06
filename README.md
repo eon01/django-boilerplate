@@ -72,6 +72,29 @@ bash init.sh <your_project_name>
 5 - Run `docker-compose up`
 
 
+## How to deploy to K8s
+
+Start by creating the namespace:
+
+```
+kubectl apply -f kubernetes/ns.yaml
+```
+
+This is how to deploy using envsubst:
+
+```
+export image=me/my-image:v0.01
+envsubst < kubernetes/$app.yaml | kubectl apply -f - && echo "$image" >> last.txt
+```
+
+A single line to create a tag (e.g: v0.0.1), build the image (e.g: gcr.io/my-project/my-app:0.0.1), push to a registry (e.g: gcr) and deploy to K8s:
+
+```
+export v=0.0.1 && export app=my-app && export repos=gcr.io/my-project/$app && export image=$repos:$v && git add . && git commit -m "v$v"; git tag -a v$v -m "Version $v" && git push origin --tags && docker build $app/ -t $image -f $app/Dockerfile && docker push $image && envsubst < kubernetes/$app.yaml | kubectl apply -f - && echo "$image" >> last.txt
+```
+
+(You need to delete the tag if it exists: `git tag -d v0.0.1  && git push --delete origin v0.0.1`)
+
 ## To Do
 
 - Upgrade Celery.

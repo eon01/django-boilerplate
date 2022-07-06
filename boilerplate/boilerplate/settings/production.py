@@ -17,8 +17,11 @@ ALLOWED_HOSTS = [
     '0.0.0.0',    
     ]
 
+# allow CIDR
+ALLOWED_CIDR_NETS = ['10.0.0.0/8']
 
 MIDDLEWARE = [
+    'allow_cidr.middleware.AllowCIDRMiddleware', # django allow CIDR middleware
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -151,10 +154,14 @@ CACHES = {
 
 
 
+DJANGO_ENV = os.environ['DJANGO_ENV']
+
 DEFAULT_FILE_STORAGE = 'boilerplate.custom_storages.CustomS3Boto3Storage'
 STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_LOCATION = 'static/public'
-MEDIAFILES_LOCATION = 'media/public'
+
+AWS_S3_APP = "rekapp" # This is useful if you want to host multiple apps on the same S3 bucket.
+STATICFILES_LOCATION = '%s/%s/static/public' % (AWS_S3_APP, DJANGO_ENV)
+MEDIAFILES_LOCATION = '%s/%s/media/public' % (AWS_S3_APP, DJANGO_ENV)  
 
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
@@ -177,13 +184,14 @@ AWS_S3_OBJECT_PARAMETERS = {
 }
 
 AWS_HEADERS = {
-    'Expires': 'Thu, 15 Apr 2021 20:00:00 GMT',
+    'Expires': 'Thu, 15 Apr 2025 20:00:00 GMT',
     'Cache-Control': 'max-age=86400',
 }
 #
 # AWS_S3_USE_SSL = True
 # AWS_S3_VERIFY = True
-AWS_CLOUDFRONT_BASE_URL = os.environ['AWS_CLOUDFRONT_BASE_URL']
-COMPRESS_URL = "%s/%s/" % (AWS_CLOUDFRONT_BASE_URL, AWS_LOCATION)
-COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATIC_URL = COMPRESS_URL
+# AWS_CLOUDFRONT_BASE_URL = os.environ['AWS_CLOUDFRONT_BASE_URL']
+# COMPRESS_URL = "%s/%s/" % (AWS_CLOUDFRONT_BASE_URL, AWS_LOCATION)
+# COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATIC_URL = COMPRESS_URL
+COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
