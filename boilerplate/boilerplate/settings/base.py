@@ -29,7 +29,7 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
-    'collectfast',
+    # 'collectfast',
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'django.contrib.humanize',
@@ -135,9 +135,13 @@ STATICFILES_FINDERS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(PROJECT_DIR, 'media/')
 
+# file storage
+DJANGO_ENV = os.environ['DJANGO_ENV']
+STORAGE_FOLDER = "boilerplate"
+STATICFILES_LOCATION = '%s/%s/static/public' % (STORAGE_FOLDER, DJANGO_ENV)  # do not change me.
+MEDIAFILES_LOCATION = '%s/%s/media/public' % (STORAGE_FOLDER, DJANGO_ENV)  # do not change me.
 
 SITE_ID = 1
-
 
 BROKER_TRANSPORT = "redis"
 BROKER_HOST = os.environ['REDIS_HOST'] 

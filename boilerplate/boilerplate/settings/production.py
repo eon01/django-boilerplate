@@ -129,18 +129,18 @@ CACHES = {
             "CONNECTION_POOL_KWARGS": {"max_connections": 10000, "retry_on_timeout": True},
         },
     },    
-    "collectfast": { 
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": "redis://" + os.environ['REDIS_HOST'] + ":" + os.environ['REDIS_PORT'] + "/" + os.environ['REDIS_DB_COLLECTFAST'],
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-            "PICKLE_VERSION": -1,  # Use the latest protocol version
-            # "SOCKET_CONNECT_TIMEOUT": 5,  # in seconds
-            # "SOCKET_TIMEOUT": 5,  # in seconds
-            "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
-            "CONNECTION_POOL_KWARGS": {"max_connections": 10000, "retry_on_timeout": True},
-        },
-    },   
+    # "collectfast": { 
+    #     "BACKEND": "django_redis.cache.RedisCache",
+    #     "LOCATION": "redis://" + os.environ['REDIS_HOST'] + ":" + os.environ['REDIS_PORT'] + "/" + os.environ['REDIS_DB_COLLECTFAST'],
+    #     "OPTIONS": {
+    #         "CLIENT_CLASS": "django_redis.client.DefaultClient",
+    #         "PICKLE_VERSION": -1,  # Use the latest protocol version
+    #         # "SOCKET_CONNECT_TIMEOUT": 5,  # in seconds
+    #         # "SOCKET_TIMEOUT": 5,  # in seconds
+    #         "COMPRESSOR": "django_redis.compressors.zlib.ZlibCompressor",
+    #         "CONNECTION_POOL_KWARGS": {"max_connections": 10000, "retry_on_timeout": True},
+    #     },
+    # },   
     "disk": {
         "BACKEND": "django.core.cache.backends.filebased.FileBasedCache",
         "LOCATION": os.path.join(BASE_DIR, 'cache'),
@@ -154,44 +154,33 @@ CACHES = {
 
 
 
-DJANGO_ENV = os.environ['DJANGO_ENV']
-
-DEFAULT_FILE_STORAGE = 'boilerplate.custom_storages.CustomS3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-
-AWS_S3_APP = "rekapp" # This is useful if you want to host multiple apps on the same S3 bucket.
-STATICFILES_LOCATION = '%s/%s/static/public' % (AWS_S3_APP, DJANGO_ENV)
-MEDIAFILES_LOCATION = '%s/%s/media/public' % (AWS_S3_APP, DJANGO_ENV)  
-
+# file storage
+DEFAULT_FILE_STORAGE = 'boilerplate.custom_storages.MediaStorage'
+STATICFILES_STORAGE = 'boilerplate.custom_storages.StaticStorage'
+AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
 AWS_ACCESS_KEY_ID = os.environ['AWS_ACCESS_KEY_ID']
 AWS_SECRET_ACCESS_KEY = os.environ['AWS_SECRET_ACCESS_KEY']
-
 AWS_STORAGE_BUCKET_NAME = os.environ['AWS_STORAGE_BUCKET_NAME']
 AWS_DEFAULT_ACL = 'public-read'
-AWS_S3_CUSTOM_DOMAIN = os.environ['AWS_S3_CUSTOM_DOMAIN']
-
 AWS_AUTO_CREATE_BUCKET = True
 AWS_BUCKET_ACL = None
-AWS_LOCATION = os.environ['DJANGO_ENV']
 AWS_S3_REGION_NAME = 'us-east-1'
-MEDIA_URL = "https://%s/" % AWS_S3_CUSTOM_DOMAIN
-
 AWS_S3_FILE_OVERWRITE = False
-
 AWS_IS_GZIPPED = True
 AWS_S3_OBJECT_PARAMETERS = {
     'CacheControl': 'max-age=86400',
 }
+# AWS_HEADERS = {
+#     'Expires': 'Thu, 15 Apr 2040 20:00:00 GMT',
+#     'Cache-Control': 'max-age=86400',
+#     'Access-Control-Allow-Origin': '*'
+# }
+AWS_DISTRIBUTION_ID = os.environ['AWS_DISTRIBUTION_ID']
 
-AWS_HEADERS = {
-    'Expires': 'Thu, 15 Apr 2025 20:00:00 GMT',
-    'Cache-Control': 'max-age=86400',
-}
-#
-# AWS_S3_USE_SSL = True
-# AWS_S3_VERIFY = True
-# AWS_CLOUDFRONT_BASE_URL = os.environ['AWS_CLOUDFRONT_BASE_URL']
-# COMPRESS_URL = "%s/%s/" % (AWS_CLOUDFRONT_BASE_URL, AWS_LOCATION)
-# COMPRESS_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-# STATIC_URL = COMPRESS_URL
-COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
+
+PUBLIC_MEDIA_LOCATION = 'media/public'
+MEDIA_URL = "https://{}/{}/{}/{}/".format(AWS_S3_CUSTOM_DOMAIN, STORAGE_FOLDER, DJANGO_ENV, PUBLIC_MEDIA_LOCATION)
+# COLLECTFAST_STRATEGY = "collectfast.strategies.boto3.Boto3Strategy"
+# COLLECTFAST_CACHE = "collectfast"
+# COLLECTFAST_THREADS = 4
+# COLLECTFAST_DEBUG = False
