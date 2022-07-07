@@ -88,6 +88,8 @@ spec:
           value: "boilerplate"     
         - name: AWS_S3_CUSTOM_DOMAIN
           value: "cdn.boilerplate.dev"
+        - name: AWS_DISTRIBUTION_ID
+          value: "changeme"          
         - name: EMAIL_BACKEND
           value: "django.core.mail.backends.smtp.EmailBackend"
         - name: EMAIL_HOST
