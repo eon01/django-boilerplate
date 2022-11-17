@@ -11,21 +11,18 @@ services:
       - ./boilerplate/:/app/
     ports:
       - "8000:8000"
-    networks:
-      - boilerplate_net
+    depends_on:
+      - boilerplate-db
+      - boilerplate-redis
 
   boilerplate-db:
     build:
       context: db
       dockerfile: Dockerfile
     env_file: db/.env     
-    networks:
-      - boilerplate_net
     
   boilerplate-redis:
     image: "redis:5.0.7-alpine"   
-    networks:
-      - boilerplate_net    
 
   # boilerplate-dbadmin:
   #   build:
@@ -36,9 +33,8 @@ services:
   #   env_file: dbadmin/.env     
   #   ports:
   #     - "${PGADMIN_PORT:-9002}:80"
-  #   networks:
-  #     - boilerplate_net
 
+# not used here.  
 networks:
   boilerplate_net:
     driver: bridge
