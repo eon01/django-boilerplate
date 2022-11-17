@@ -34,25 +34,25 @@ An opinionated Django boilerplate running Celery and Django on the same Docker c
 
 ✅ Other commons libraries are installed like: 
 
-➡️ Collectfast 
+    ➡️ Collectfast 
 
-➡️ django-health-check
+    ➡️ django-health-check
 
-➡️ django-select2
+    ➡️ django-select2
 
-➡️ django_extensions
+    ➡️ django_extensions
 
-➡️ django-clear-cache
+    ➡️ django-clear-cache
 
-➡️ django-taggit
+    ➡️ django-taggit
 
-➡️ django-crispy-forms
+    ➡️ django-crispy-forms
 
-➡️ django-debug-toolbar
+    ➡️ django-debug-toolbar
 
-➡️ sorl-thumbnail
+    ➡️ sorl-thumbnail
 
-➡️ django-css-inline
+    ➡️ django-css-inline
 
 ## How to use
 
@@ -60,16 +60,29 @@ An opinionated Django boilerplate running Celery and Django on the same Docker c
 
 2 - Activate your virtual env if you are using one.
 
-3 - Run the init.sh script:
+```bash
+mkvirtualenv <your_project_name>
+```
 
+3 - Clone and run the init.sh script:
 
-``` bash
+```bash
+git clone https://github.com/eon01/django-boilerplate <your_project_name>
+cd <your_project_name>
 bash init.sh <your_project_name>
 ```
 
-4 - Update the .env file
+4 - Update the .env file located at the root of the project with your own environment variables.
 
-5 - Run `docker-compose up`
+```bash
+vi <your_project_name>/.env
+```
+
+5 - Run Compose: 
+
+```
+docker-compose up
+```
 
 
 ## How to deploy to K8s
@@ -98,6 +111,7 @@ export v=0.0.1 && export app=my-app && export repos=gcr.io/my-project/$app && ex
 ## To Do
 
 - Upgrade Celery.
+- Upgrade Django
 
 
 
