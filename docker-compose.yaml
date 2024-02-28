@@ -9,6 +9,7 @@ services:
     tty: true
     volumes:
       - ./boilerplate/:/app/
+      - cache-pip:/root/.cache/pip      
     ports:
       - "8000:8000"
     depends_on:
@@ -19,7 +20,11 @@ services:
     build:
       context: db
       dockerfile: Dockerfile
-    env_file: db/.env     
+    env_file: db/.env    
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    volumes:
+      - boilerplate-db-data:/var/lib/postgresql/data 
     
   boilerplate-redis:
     image: "redis:5.0.7-alpine"   
@@ -38,3 +43,7 @@ services:
 networks:
   boilerplate_net:
     driver: bridge
+
+volumes:  
+  cache-pip:
+  boilerplate-db-data:
