@@ -4,7 +4,7 @@ set -euxo pipefail
 
 {
     echo "Starting script execution..."
-    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOSQL
+    psql -v ON_ERROR_STOP=1 --username "$POSTGRES_USER" --dbname "$POSTGRES_DB" <<-EOF
     \x
         CREATE DATABASE boilerplate;
         CREATE USER boilerplate WITH PASSWORD '$POSTGRES_PASSWORD';
@@ -15,5 +15,5 @@ set -euxo pipefail
         GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO boilerplate;
         GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO boilerplate;
         ALTER USER boilerplate CREATEDB;
-    EOSQL
+    EOF
 } &> /var/log/init-user-permissions.log
