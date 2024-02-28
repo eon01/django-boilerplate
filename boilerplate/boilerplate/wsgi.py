@@ -11,8 +11,8 @@ import os
 
 from django.core.wsgi import get_wsgi_application
 
-if (os.environ['DJANGO_ENV'] == "prod") or (os.environ['DJANGO_ENV'] == "production"):
-    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boilerplate.settings.production")
+if (os.environ['DJANGO_ENV'] == "prod"):
+    os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boilerplate.settings.prod")
 else:
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "boilerplate.settings.dev")
 
