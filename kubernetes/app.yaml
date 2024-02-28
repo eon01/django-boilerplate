@@ -39,7 +39,7 @@ spec:
       name: boilerplate-webapp
       labels:
         app: boilerplate-webapp
-        env: production
+        env: prod
     spec:
       containers:
       - name: boilerplate-webapp-container
