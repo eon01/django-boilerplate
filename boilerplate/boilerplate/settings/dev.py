@@ -45,12 +45,12 @@ log = logging.getLogger(__name__)
 
 
 # the minimum reported level
-min_level = 'DEBUG'
+min_level = 'INFO'
 
 # the minimum reported level for Django's modules
 # optionally set to DEBUG to see database queries etc.
 # or set to min_level to control it using the DEBUG flag
-min_django_level = 'DEBUG'
+min_django_level = 'INFO'
 CELERY_HIJACK_ROOT_LOGGER = False
 
 # logging dictConfig configuration
